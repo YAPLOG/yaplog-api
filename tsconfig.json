@@ -5,6 +5,7 @@
         "lib": [
             "es2022"
         ],
+        "outDir": "dist",
         "module": "commonjs",
         "target": "es2022",
         "strict": true,
@@ -27,10 +28,5 @@
     },
     "include": [
         "**/*.ts",
-        ".eslintrc.js",
-        "jest.config.base.js",
-        "jest.config.js",
-        "jest.preset.js",
-        "tests/jest-resolver.js"
     ]
 }
