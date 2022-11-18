@@ -72,7 +72,6 @@ jobs:
       - name: Recover node modules
         uses: actions/cache@v3
         with:
-          # caching node_modules
           path: node_modules
           key: ${{ runner.os }}-build-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Recover dist folder
@@ -93,5 +92,5 @@ jobs:
       - name: Call Render hook to deploy
         uses: fjogeleit/http-request-action@v1.12.0
         with:
-          url: 'https://api.render.com/deploy/srv-cdr7e4da4991vasrjdp0?key=aNDpQBBRm8E'
+          url: ${{ secrets.RENDER_HOOK_URL }}
           method: 'GET'
