@@ -31,6 +31,7 @@ jobs:
       - name: Create release
         run: npx semantic-release
   lint:
+    runs-on: ubuntu-latest
     needs: ['install']
     steps:
       - name: Recover node modules
@@ -47,6 +48,7 @@ jobs:
         run: npm run lint
 
   build:
+    runs-on: ubuntu-latest
     needs: ['lint']
     steps:
       - name: Recover node modules
@@ -63,6 +65,7 @@ jobs:
         run: npm run build
 
   release:
+    runs-on: ubuntu-latest
     needs: ['build']
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -82,6 +85,7 @@ jobs:
         run: npx semantic-release
 
   deploy:
+    runs-on: ubuntu-latest
     needs: ['release']
     steps:
       - name: Call Render hook to deploy
