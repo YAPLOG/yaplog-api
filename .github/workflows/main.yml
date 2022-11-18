@@ -24,12 +24,6 @@ jobs:
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: npm ci
-      - name: Lint
-        run: npm run lint
-      - name: Build
-        run: npm run build
-      - name: Create release
-        run: npx semantic-release
   lint:
     runs-on: ubuntu-latest
     needs: ['install']
