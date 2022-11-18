@@ -27,6 +27,6 @@
         "checkJs": true
     },
     "include": [
-        "**/*.ts",
+        "./src/**/*.ts",
     ]
 }

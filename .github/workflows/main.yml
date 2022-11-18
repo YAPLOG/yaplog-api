@@ -1,0 +1,43 @@
+name: Caching npm packages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache node modules
+        id: cache-nodemodules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          # caching node_modules
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+      - name: Install Dependencies
+        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
+        run: npm install
+      - name: Lint
+        run: npm run lint
+      - name: Build
+        run: npm run build
+      - name: Create release
+        run: npx semantic-release
+      - name: Call Render hook to deploy
+        uses: fjogeleit/http-request-action@v1.12.0
+        with:
+          url: 'https://api.render.com/deploy/srv-cdr7e4da4991vasrjdp0?key=aNDpQBBRm8E'
+          method: 'GET'
