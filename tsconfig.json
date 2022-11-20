@@ -24,7 +24,9 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "importsNotUsedAsValues": "error",
-        "checkJs": true
+        "allowJs": true,
+        "checkJs": true,
+        "resolveJsonModule": true
     },
     "include": [
         "./src/**/*.ts",
