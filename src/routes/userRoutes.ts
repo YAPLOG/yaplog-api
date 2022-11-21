@@ -8,16 +8,16 @@ const userRoutes = (server: any, _opts: any, done: () => void) => {
     handler: async (request: any, response: any) => {
       const { email, password, rememberMe } = request.body;
       let signOptions = {};
-      if (!rememberMe) {
-        signOptions = {
-          ...signOptions,
-          expiresIn: '7d',
-        };
-      }
       const user = await getUserByEmailAndPassword(email, password);
       if (user) {
-        const { pseudo } = user;
-        const token = server.jwt.sign({ userID: user.id, pseudo }, signOptions);
+        if (!rememberMe) {
+          signOptions = {
+            ...signOptions,
+            expiresIn: '1d',
+          };
+        }
+        const { id, pseudo, avatar } = user;
+        const token = server.jwt.sign({ userID: id, pseudo, avatar }, process.env['JWT_SECRET'], signOptions);
         return response.status(200).send({ token });
       }
       return response.status(401).send({ errorMsg: 'Invalid credentials.' });
@@ -35,11 +35,11 @@ const userRoutes = (server: any, _opts: any, done: () => void) => {
           if (!rememberMe) {
             signOptions = {
               ...signOptions,
-              expiresIn: '7d',
+              expiresIn: '1d',
             };
           }
           const { name, avatar } = newUser;
-          const token = server.jwt.sign({ userId: newUser.id, name, avatar }, signOptions);
+          const token = server.jwt.sign({ userId: newUser.id, name, avatar }, process.env['JWT_SECRET'], signOptions);
 
           return response.status(201).send({ token });
         }
