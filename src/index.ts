@@ -3,6 +3,9 @@ import { version } from '../package.json';
 import userRoutes from './routes/userRoutes';
 
 const swagger = require('@fastify/swagger');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const server = fastify({
   logger: {
