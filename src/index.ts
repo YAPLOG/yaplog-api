@@ -16,6 +16,7 @@ const server = fastify({
 });
 
 const serverConfig = {
+  host: process.env['SERVER_ADDRESS'] || '127.0.0.1',
   port: parseInt(process.env['PORT'] || '8080', 10),
 };
 
